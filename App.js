@@ -11,15 +11,38 @@ export default class DroneDeliveryApp extends Component {
     super(props);
     this.state = {text: ''};
   }
-  
-  function MakeGoogleMapsApiRequest() {
-	  return fetch('https://maps.googleapis.com/maps/api/geocode/json?address=Florence')
-		.then((response) => response.json())
+
+  sendDestination(lat, lon) {
+  	return fetch('http://18.218.103.113/destinations/', {
+  		method: 'POST',
+  		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json',
+		},
+  		body: JSON.stringify({
+  			lat: lat,
+  			lon: lon,
+  			pending: true
+  		})
+		}).then((response) => response.json())
 		.then((responseJson) => {
-			return responseJson.
+			Alert.alert("Destination Sent", "Destination ID is " + responseJson.id)
 		})
 		.catch((error) => {
 			console.error(error);
+		});
+  }
+  
+  makeGoogleMapsApiRequest(addr) {
+	  return fetch('https://maps.googleapis.com/maps/api/geocode/json?address="' + addr +'"')
+		.then((response) => response.json())
+		.then((responseJson) => {
+			var lat = responseJson.results[0].geometry.location.lat;
+			var lon = responseJson.results[0].geometry.location.lng;
+			this.sendDestination(lat, lon)
+		})
+		.catch((error) => {
+			Alert.alert("Destination not found", "Please try another address.")
 		});
   }
   
@@ -40,7 +63,7 @@ export default class DroneDeliveryApp extends Component {
 			<View style={styles.ButtonStyle}>
 				<Button
 					onPress={() => {
-						Alert.alert('Sent too', this.state.text)
+						this.makeGoogleMapsApiRequest(this.state.text);
 				}}
 				title="Press to send address"
 			/>
