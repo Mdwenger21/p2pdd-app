@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Alert, AppRegistry, Platform, StyleSheet, Text, 
 		TouchableHighlight, TouchableOpacity, TouchableNativeFeedback,
-		TouchableWithoutFeedback, View, TextInput, Button } from 'react-native';
+		TouchableWithoutFeedback, View, TextInput, Button, Image } from 'react-native';
 		
 import $ from 'jquery'
 import MapView from 'react-native-maps';
@@ -49,26 +49,33 @@ export default class DroneDeliveryApp extends Component {
   render() {
     return (
 		
-		<View>
-			<View style={styles.TextStyle}>
-				<Text> {'\n'} {'\n'} Enter your address below: </Text>
+		<View style ={{flex: 1}}>
+			<View style={styles.HeaderBar}>
+				<Text style={styles.HeaderFont}> {'\n'} Peer To Peer Drone Delivery </Text>
 			</View>
-			<View style={styles.TextEntryStyle}>
-				<TextInput
-				style={{height: 40}}
-				placeholder="Enter your address here"
-				onChangeText={(text) => this.setState({text})}
-				/>
+			<View style={styles.AppBackground}>	
+				<View style={styles.TextStyle}>
+					<Text style={styles.EnterTextFont}> {'\n'} Enter your address below: </Text>
+				</View>
+				<View style={styles.TextEntryStyle}>
+					<TextInput
+					style={{height: 35}}
+					placeholder="Enter your address here"
+					onChangeText={(text) => this.setState({text})}
+					/>
+				</View>
+				<View style={styles.ButtonStyle}>
+					<Button
+						onPress={() => {
+							this.makeGoogleMapsApiRequest(this.state.text);
+					}}
+					title="Press to send address"
+					/>
+				</View>
 			</View>
-			<View style={styles.ButtonStyle}>
-				<Button
-					onPress={() => {
-						this.makeGoogleMapsApiRequest(this.state.text);
-				}}
-				title="Press to send address"
-			/>
+			<View style={styles.LogoBackground}>
+				<Image source={require('./DroneLogo.png')} style={{flex: 15, flexDirection: 'row', justifyContent: 'center'}}/>
 			</View>
-			
 		</View>
     );
   }
@@ -85,7 +92,30 @@ const styles = StyleSheet.create({
 	ButtonStyle: {
 		flexDirection: 'row',
 		justifyContent: 'center',
+	},
+	HeaderBar: {
+		flex: 1,
+		backgroundColor: 'white',
+		flexDirection: 'row',
+		justifyContent: 'center',		
+	},
+	AppBackground: {
+		flex: 3,
+		backgroundColor: 'lightslategrey',
+	},
+	HeaderFont: {
+		color: 'red',
+		fontWeight: 'bold',
+		fontSize: 25,
+	},
+	EnterTextFont: {
+		fontSize: 20,
+	},
+	LogoBackground: {
+		flex: 5,
+		backgroundColor: 'white',
 	}
+	
 })
 
 // Google Maps API key 
