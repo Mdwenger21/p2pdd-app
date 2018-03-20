@@ -12,6 +12,58 @@ export default class DroneDeliveryApp extends Component {
     this.state = {text: ''};
   }
 
+  approveDestination(id, address) {
+  	return fetch('http://18.218.103.113/destinations/' + id + '/approval', {
+  		method: 'GET',
+  		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json',
+		}
+		}).then((response) => response.json())
+		.then((responseJson) => {
+			console.log(responseJson);
+			Alert.alert("Destination approved", "The drone is on its way to " + address + "!")
+		})
+		.catch((error) => {
+			console.error(error);
+		});
+  }
+
+  rejectDestination(id) {
+  	return fetch('http://18.218.103.113/destinations/' + id +'/', {
+  		method: 'DELETE',
+  		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json',
+		}
+		}).then((response) =>
+			Alert.alert("Destination rejected", "This destination has been deleted.")
+		)
+		.catch((error) => {
+			console.error(error);
+		});
+  }
+
+  checkDestinationToApprove() {
+  	return fetch('http://18.218.103.113/destinations/approval', {
+  		method: 'GET',
+  		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json',
+		}
+		}).then((response) => response.json())
+		.then((responseJson) => {
+			Alert.alert("Approval Needed", "Should the drone fly to " + responseJson.address +"?", [
+				{ text: "Approve", onPress: () => this.approveDestination(responseJson.id, responseJson.address) },
+				{ text: "Reject", onPress: () => this.rejectDestination(responseJson.id) },
+				{ text: "Cancel", onPress: () => console.log('Cancel pressed') }
+			])
+		})
+		.catch((error) => {
+			Alert.alert("No pending destinations", "Please enter an address and wait for the drone to request.");
+		});
+  }
+
   sendDestination(lat, lon) {
   	return fetch('http://18.218.103.113/destinations/', {
   		method: 'POST',
@@ -48,7 +100,6 @@ export default class DroneDeliveryApp extends Component {
   
   render() {
     return (
-		
 		<View>
 			<View style={styles.TextStyle}>
 				<Text> {'\n'} {'\n'} Enter your address below: </Text>
@@ -66,6 +117,14 @@ export default class DroneDeliveryApp extends Component {
 						this.makeGoogleMapsApiRequest(this.state.text);
 				}}
 				title="Press to send address"
+			/>
+			</View>
+			<View style={styles.ButtonStyle}>
+				<Button
+					onPress={() => {
+						this.checkDestinationToApprove();
+				}}
+				title="Press to approve destination"
 			/>
 			</View>
 			
