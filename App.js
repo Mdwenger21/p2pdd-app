@@ -133,7 +133,7 @@ export default class DroneDeliveryApp extends Component {
 				</View>
 			</View>
 			<View style={styles.LogoBackground}>
-				<Image source={require('./DroneLogo.png')} style={{flex: 15, flexDirection: 'row', justifyContent: 'center'}}/>
+				<Image source={require('./DroneLogo.png')} style={{width: 450, height: 300}} resizeMode='center'/>
 			</View>
 		</View>
     );
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
 	},
 	LogoBackground: {
 		flex: 5,
-		backgroundColor: 'white',
+		backgroundColor: 'lightslategrey',
 	}
 	
 })
