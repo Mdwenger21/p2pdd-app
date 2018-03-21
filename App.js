@@ -110,7 +110,7 @@ export default class DroneDeliveryApp extends Component {
 				</View>
 				<View style={styles.TextEntryStyle}>
 					<TextInput
-					style={{height: 35}}
+					style={{height: 35, textAlign: 'center', marginBottom: 25}}
 					placeholder="Enter your address here"
 					onChangeText={(text) => this.setState({text})}
 					/>
@@ -142,37 +142,41 @@ export default class DroneDeliveryApp extends Component {
 
 const styles = StyleSheet.create({
 	TextEntryStyle: {
-		padding: 5,
+		padding: 5
 	},
 	TextStyle: {
 		flexDirection: 'row',
-		justifyContent: 'center',
+		justifyContent: 'center'
 	},
 	ButtonStyle: {
 		flexDirection: 'row',
-		justifyContent: 'center',
+		justifyContent: 'center'
 	},
 	HeaderBar: {
 		flex: 1,
-		backgroundColor: 'white',
+		backgroundColor: 'red',
 		flexDirection: 'row',
-		justifyContent: 'center',		
+		justifyContent: 'center',
+		marginTop: 0	
 	},
 	AppBackground: {
 		flex: 3,
-		backgroundColor: 'lightslategrey',
+		backgroundColor: 'white'
 	},
 	HeaderFont: {
-		color: 'red',
+		color: 'white',
 		fontWeight: 'bold',
 		fontSize: 25,
+		marginTop: 15
 	},
 	EnterTextFont: {
 		fontSize: 20,
+		color: 'red'
 	},
 	LogoBackground: {
 		flex: 5,
-		backgroundColor: 'lightslategrey',
+		backgroundColor: 'white',
+		marginLeft: '3%'
 	}
 	
 })
